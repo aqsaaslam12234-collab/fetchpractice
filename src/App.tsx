@@ -1,13 +1,24 @@
+import { useEffect, useState } from "react";
+import ProductList from "./components/ProductList";    // ✔ Corrected path
+import type { ProductType } from "./Types/ProductTypes";
 
-import './App.css'
+const App = () => {
+  const [products, setProducts] = useState<ProductType[]>([]);
 
-function App() {
-  
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch("https://dummyjson.com/products");
+      const data = await response.json();
+      setProducts(data.products); // ✔ Fills ProductType[]
+    };
+    fetchData();
+  }, []);
+
   return (
-    <>
-     <div>Assalam u Alaikum </div>
-    </>
-  )
-}
+    <div>
+      <ProductList items={products} />
+    </div>
+  );
+};
 
-export default App
+export default App;
